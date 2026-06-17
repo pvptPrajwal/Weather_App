@@ -155,3 +155,20 @@ h1 {
         transform: scale(1.04);
     }
 }
+
+.Get-btn{
+    padding: 10px 10px;
+    border: none;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #1e3c72;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+    margin-bottom: 25px;
+}
+.Get-btn:hover {
+    background: #e0e0e0;
+    transform: translateY(-1px);
+}
