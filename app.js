@@ -24,5 +24,7 @@ async function weatherNow(loc){
 }
 
 window.addEventListener("load",() =>{
-    const value = localStorage.getItem("Location");
+    exactLocation.innerText = localStorage.getItem("Location");
+    temp.innerText = localStorage.getItem("temp");
+    time.innerText = localStorage.getItem("Time");
 });
