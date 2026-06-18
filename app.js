@@ -8,9 +8,20 @@ const time = document.querySelector("#date-time");
 
 const getLocationbtn = document.querySelector(".Get-btn");
 
+async function weatherNow(loc,lat){
+    if(lat === undefined){
+        const data =await fetch(`https://api.weatherapi.com/v1/current.json?key=ed608fa4233d4779a4164901261606&q=${loc}&aqi=yes`)
+        console.log(`location is ${loc}`)
+        return await data.json();
+    }else{
+        const data =await fetch(`https://api.weatherapi.com/v1/current.json?key=ed608fa4233d4779a4164901261606&q=${loc},${lat}&aqi=yes`)
+        console.log(`latitude is ${loc}, longitude is ${lat}`);
+        return await data.json();
+    }
+}
+
 searchBtn.addEventListener("click",async () =>{
     const value =textBox.value;
-    console.log(value);
     const result = await weatherNow(value);
     exactLocation.innerText =`${result.location.name} ${result.location.region} ${result.location.country}`;   
     time.innerText =`${result.location.localtime}`;
@@ -20,28 +31,10 @@ searchBtn.addEventListener("click",async () =>{
     localStorage.setItem("temp",`${result.current.temp_c}`);
 });
 
-async function weatherNow(loc){
-    const data =await fetch(`https://api.weatherapi.com/v1/current.json?key=ed608fa4233d4779a4164901261606&q=${loc}&aqi=yes`)
-    return await data.json();
-}
-
-async function weatherNow(lat,lon){
-    const data =await fetch(`https://api.weatherapi.com/v1/current.json?key=ed608fa4233d4779a4164901261606&q=${lat},${lon}&aqi=yes`)
-    return await data.json();
-}
-
-window.addEventListener("load",() =>{
-    exactLocation.innerText = localStorage.getItem("Location");
-    temp.innerText = localStorage.getItem("temp");
-    time.innerText = localStorage.getItem("Time");
-});
-
-
 getLocationbtn.addEventListener("click",() =>{
     navigator.geolocation.getCurrentPosition(async (position)=>{
         let lac = position.coords.latitude;
         let lon = position.coords.longitude;
-        console.log(`latitude is ${lac}, longitude is ${lon}`);
         const result = await weatherNow(lac,lon);
         exactLocation.innerText =`${result.location.name} ${result.location.region} ${result.location.country}`;   
         time.innerText =`${result.location.localtime}`;
@@ -51,6 +44,12 @@ getLocationbtn.addEventListener("click",() =>{
         localStorage.setItem("temp",`${result.current.temp_c}`);
     },
     (error)=>{
-        console.log(`Error ${error}`);
+        alert(`Error ${error}`);
     });
+});
+
+window.addEventListener("load",() =>{
+    exactLocation.innerText = localStorage.getItem("Location");
+    temp.innerText = localStorage.getItem("temp");
+    time.innerText = localStorage.getItem("Time");
 });
